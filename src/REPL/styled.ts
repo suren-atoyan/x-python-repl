@@ -12,7 +12,9 @@ const Stack = styled(FlexBox)({
   flexDirection: 'column',
 });
 
-const Container = styled(FlexBox)<ContainerProps>(({ background }) => ({
+const Container = styled(FlexBox, {
+  shouldForwardProp: (prop) => prop !== 'background',
+})<ContainerProps>(({ background }) => ({
   width: 400,
   height: 400,
   padding: 16,
