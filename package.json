@@ -1,0 +1,61 @@
+{
+  "name": "@x-python/repl",
+  "version": "0.0.1",
+  "description": "Python REPL in browser",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublish": "npm test && npm run lint && npm run build",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suren-atoyan/x-python-repl.git"
+  },
+  "keywords": [
+    "python",
+    "repl",
+    "react",
+    "pyodide",
+    "webassembly"
+  ],
+  "author": "Suren Atoyan <contact@surenatoyan.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/suren-atoyan/x-python-repl/issues"
+  },
+  "homepage": "https://github.com/suren-atoyan/x-python-repl#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.194",
+    "@types/react": "^18.0.35",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "jsdom": "^21.1.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  },
+  "peerDependencies": {
+    "@emotion/styled": "^11.10.6",
+    "immer": "^9.0.21",
+    "lodash": "^4.17.21",
+    "monaco-editor": "^0.37.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recoil": "^0.7.7",
+    "styled-components": "^5.3.9"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.5.0",
+    "@x-python/core": "^0.0.8",
+    "dompurify": "^3.0.2"
+  }
+}
