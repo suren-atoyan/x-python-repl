@@ -7,12 +7,16 @@ const themes = {
     monaco: chromeDevTools,
     colors: {
       text: '#000',
+      indexIn: 'green',
+      indexOut: 'purple',
     },
   },
   [Themes.Dark]: {
     monaco: nightOwlTheme,
     colors: {
       text: '#fff',
+      indexIn: '#79f29d',
+      indexOut: '#B87FDB',
     },
   },
 };

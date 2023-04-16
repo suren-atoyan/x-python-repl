@@ -4,7 +4,7 @@ import { FlexBox, Stack } from '../../../styled';
 import { CODE_CONTAINER_MIN_HEIGHT } from '../../styled';
 
 const Container = styled(FlexBox)({
-  fontWeight: 600,
+  fontWeight: 900,
   alignSelf: 'baseline',
   minWidth: 60,
   width: 60,
@@ -14,8 +14,6 @@ const Container = styled(FlexBox)({
   fontSize: 11,
   justifyContent: 'flex-end',
   alignItems: 'flex-start',
-  // TODO: use theme
-  color: 'green',
   zIndex: 1,
 });
 
