@@ -7,8 +7,7 @@ import delay from 'lodash/delay';
 
 import { RegisteredCompletionItemProvider } from '../../../monaco/types';
 import { setupAutocompletion, setupMonaco } from '../../../monaco/utils';
-import { useAddCell, useCells, useCleanScreen, useConfig } from '../../../store/hooks';
-import themes from '../../../themes';
+import { useAddCell, useCells, useCleanScreen, useConfig, useTheme } from '../../../store/hooks';
 import InputIndex from '../components/InputIndex';
 import OutputIndex from '../components/OutputIndex';
 import {
@@ -62,7 +61,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   const [config] = useConfig();
   const isInitializedRef = useRef(props.isInitialized);
 
-  const theme = themes[config.theme];
+  const theme = useTheme();
 
   cellsRef.current = cells;
   isInitializedRef.current = props.isInitialized;

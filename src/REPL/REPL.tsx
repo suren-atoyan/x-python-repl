@@ -3,8 +3,7 @@ import { type MouseEvent, useEffect, useRef, useState } from 'react';
 import * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import { init } from '@x-python/core';
 
-import { useCells, useConfig } from '../store/hooks';
-import themes from '../themes';
+import { useCells, useTheme } from '../store/hooks';
 import Cell from './cells/Cell';
 import InputCell from './cells/InputCell';
 import { Loading, Container } from './styled';
@@ -14,13 +13,11 @@ function REPL() {
   const [isInitialized, setIsInitialized] = useState(false);
   const cells = useCells();
   const editorRef = useRef<monacoType.editor.IStandaloneCodeEditor>();
-  const [config] = useConfig();
+  const theme = useTheme();
 
   useEffect(() => {
     init().then(() => setIsInitialized(true));
   }, []);
-
-  const theme = themes[config.theme];
 
   function handleContainerClick(ev: MouseEvent<HTMLElement>) {
     if (ev.currentTarget === ev.target) {

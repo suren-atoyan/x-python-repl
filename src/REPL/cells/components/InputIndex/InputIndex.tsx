@@ -4,7 +4,7 @@ import { ColumnsContainer, Container, MultilineIndicatorRow } from './styled';
 import { InputIndexProps } from './typed';
 import IndexNumber from './IndexNumber';
 
-function InputIndex({ isLoading, index, value, containerStyles = {} }: InputIndexProps) {
+function InputIndex({ isLoading = false, index, value, containerStyles = {} }: InputIndexProps) {
   const linesToRender = useMemo(() => (value?.split('\n').length || 1) - 1, [value]);
 
   return (

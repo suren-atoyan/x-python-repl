@@ -1,6 +1,4 @@
-import { useConfig } from '../../../store/hooks';
-import themes from '../../../themes';
-import { Themes } from '../../../themes/types';
+import { useTheme } from '../../../store/hooks';
 import CodeHighlighter from '../components/CodeHighlighter';
 import InputIndex from '../components/InputIndex';
 import OutputIndex from '../components/OutputIndex';
@@ -10,8 +8,7 @@ import { getResult } from '../utils';
 
 function Cell({ index, cell }: BaseCellProps) {
   const result = getResult(cell.output);
-  const [config] = useConfig();
-  const theme = themes[config.theme];
+  const theme = useTheme();
 
   return (
     <Container>

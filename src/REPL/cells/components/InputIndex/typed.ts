@@ -1,5 +1,5 @@
 type InputIndexProps = {
-  isLoading: boolean;
+  isLoading?: boolean;
   value?: string;
   index: number;
   containerStyles?: Record<string, CSSStyleRule>;

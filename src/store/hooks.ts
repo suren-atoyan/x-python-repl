@@ -7,11 +7,18 @@ import last from 'lodash/last';
 import type { Config, Cell } from '../REPL/types';
 import { getEmptyCell } from '../REPL/utils';
 import { cellsState, configState } from './atoms';
+import themes from '../themes';
 
 function useConfig(): [Config, SetterOrUpdater<Config>] {
   const [config, setConfig] = useRecoilState(configState);
 
   return [config, setConfig];
+}
+
+function useTheme() {
+  const [config] = useConfig();
+
+  return themes[config.theme];
 }
 
 // NOTE: currently we do support only one console at the time
@@ -57,4 +64,4 @@ function useCleanScreen() {
   return cleanScreen;
 }
 
-export { useCells, useAddCell, useCleanScreen, useConfig };
+export { useCells, useAddCell, useCleanScreen, useConfig, useTheme };
