@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import Editor, { Monaco } from '@monaco-editor/react';
-import { exec } from '@x-python/core';
+import { exec, interrupt } from '@x-python/core';
 import delay from 'lodash/delay';
 
 import { RegisteredCompletionItemProvider } from '../../../monaco/types';
@@ -21,6 +21,7 @@ import {
 } from '../styled';
 import { getResult } from '../utils';
 import { InputCellProps } from './types';
+import { CellOutput } from '../../types';
 
 const UP_DOWN_ARROW_COMMAND_CONTEXT =
   'editorTextFocus && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode && !quickFixWidgetVisible';
@@ -66,18 +67,25 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   cellsRef.current = cells;
   isInitializedRef.current = props.isInitialized;
 
-  function handleRun() {
-    if (!isInitializedRef.current) {
+  async function handleRun() {
+    if (!isInitializedRef.current || isLoading) {
       return;
     }
 
     if (editorRef.current) {
       const code = editorRef.current.getValue();
       setIsLoading(true);
-      exec({ code }).then(async (output) => {
+
+      try {
+        const output = await exec({ code });
         addCell({ ...cell, input: { code }, output });
+      } catch (error) {
+        // TODO: get rid of casting
+        const output = { error: error as string } as CellOutput;
+        addCell({ ...cell, input: { code }, output });
+      } finally {
         setIsLoading(false);
-      });
+      }
     }
   }
 
@@ -111,10 +119,14 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
     editorRef.current?.trigger('', 'editor.action.insertLineAfter', null);
   }
 
-  function clearLine() {
-    if (!isLoading) {
-      editorRef.current?.setValue('');
-      // set complex input to null
+  function interruptCommand() {
+    if (!isLoading && editorRef.current) {
+      try {
+        interrupt();
+        setIsLoading(false);
+      } finally {
+        // set complex input to null
+      }
     }
   }
 
@@ -211,7 +223,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
       id: 'clear-line',
       label: 'Clear line',
       keybindings: [monaco.KeyMod.WinCtrl | monaco.KeyCode.KeyC],
-      run: clearLine,
+      run: interruptCommand,
     });
 
     editor.addAction({
@@ -273,6 +285,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
             options={{
               ...EDITOR_OPTIONS,
               automaticLayout: !isEditorReady,
+              readOnly: isLoading,
             }}
             value={editorValue}
             loading=""
