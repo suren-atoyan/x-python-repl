@@ -42,7 +42,9 @@ function setupAutocompletion(
     };
   }
 
-  return registeredCompletionItemProviders[completionItemProviderId];
+  return registeredCompletionItemProviders[
+    completionItemProviderId
+  ] as RegisteredCompletionItemProvider;
 }
 
 function getSuggestions(
