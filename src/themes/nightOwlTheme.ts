@@ -672,6 +672,8 @@ const nightOwlTheme = {
     'editorWhitespace.foreground': '#2e2040',
     'editorIndentGuide.background': '#5e81ce52',
     'editor.selectionHighlightBorder': '#122d42',
+    'editorSuggestWidget.background': 'rgb(37, 37, 38)',
+    'editorSuggestWidget.border': 'rgb(69, 69, 69)',
   },
 };
 

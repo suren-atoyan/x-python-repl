@@ -22,6 +22,8 @@ type Config = {
 
 type ContainerProps = {
   background: string;
+  widgetBackground: string;
+  widgetBorder: string;
 };
 
 export type { Cell, CellOutput, CellInput, Config, ContainerProps };

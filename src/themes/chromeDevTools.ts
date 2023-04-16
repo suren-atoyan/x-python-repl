@@ -106,6 +106,8 @@ const chromeDevTools = {
     'editor.lineHighlightBackground': '#0000001A',
     'editorCursor.foreground': '#000000',
     'editorWhitespace.foreground': '#B3B3B3F4',
+    'editorSuggestWidget.background': 'rgb(243, 243, 243)',
+    'editorSuggestWidget.border': 'rgb(200, 200, 200)',
   },
 };
 

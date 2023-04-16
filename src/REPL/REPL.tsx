@@ -51,7 +51,12 @@ function REPL() {
   }
 
   return (
-    <Container onClick={handleContainerClick} background={theme.monaco.colors['editor.background']}>
+    <Container
+      onClick={handleContainerClick}
+      background={theme.monaco.colors['editor.background']}
+      widgetBackground={theme.monaco.colors['editorSuggestWidget.background']}
+      widgetBorder={theme.monaco.colors['editorSuggestWidget.border']}
+    >
       {!isInitialized && (
         <Loading>
           <CircularProgress />

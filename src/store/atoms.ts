@@ -5,7 +5,7 @@ import { getEmptyCell } from '../REPL/utils';
 import { Themes } from '../themes/types';
 
 const INITIAL_CONFIG = {
-  theme: Themes.Light,
+  theme: Themes.Dark,
 };
 
 const cellsState = atomFamily<Cell[], string>({

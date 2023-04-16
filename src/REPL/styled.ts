@@ -13,8 +13,8 @@ const Stack = styled(FlexBox)({
 });
 
 const Container = styled(FlexBox, {
-  shouldForwardProp: (prop) => !['background'].includes(prop),
-})<ContainerProps>(({ background }) => ({
+  shouldForwardProp: (prop) => !['background', 'widgetBackground', 'widgetBorder'].includes(prop),
+})<ContainerProps>(({ background, widgetBackground, widgetBorder }) => ({
   width: 400,
   height: 400,
   padding: 16,
@@ -25,6 +25,10 @@ const Container = styled(FlexBox, {
   overflowY: 'auto',
   backgroundColor: background,
   position: 'relative',
+  // there is a known issue
+  // https://github.com/microsoft/monaco-editor/issues/2822
+  '--vscode-editorSuggestWidget-background': widgetBackground,
+  '--vscode-editorSuggestWidget-border': widgetBorder,
 }));
 
 const Loading = styled(Box)({
