@@ -1,8 +1,13 @@
 type InputIndexProps = {
-  isLoading?: boolean;
+  isLoading: boolean;
   value?: string;
   index: number;
   containerStyles?: Record<string, CSSStyleRule>;
 };
 
-export type { InputIndexProps };
+type IndexNumberProps = {
+  index: number;
+  isLoading: boolean;
+};
+
+export type { InputIndexProps, IndexNumberProps };

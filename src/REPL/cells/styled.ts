@@ -23,6 +23,7 @@ const EditorContainer = styled(FlexBox)({
   flexDirection: 'column',
   flexGrow: 1,
   width: '90%',
+  overflowX: 'auto',
   '.cigra, .cigr': {
     boxShadow: 'none !important',
   },

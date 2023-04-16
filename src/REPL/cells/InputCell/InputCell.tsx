@@ -60,12 +60,18 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   const [height, setHeight] = useState(CODE_CONTAINER_MIN_HEIGHT);
   const [prevValueIndex, setPrevValueIndex] = useState(cells.length - 1);
   const [config] = useConfig();
+  const isInitializedRef = useRef(props.isInitialized);
 
   const theme = themes[config.theme];
 
   cellsRef.current = cells;
+  isInitializedRef.current = props.isInitialized;
 
   function handleRun() {
+    if (!isInitializedRef.current) {
+      return;
+    }
+
     if (editorRef.current) {
       const code = editorRef.current.getValue();
       setIsLoading(true);
@@ -265,7 +271,10 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
             theme={config.theme}
             onMount={handleEditorMount}
             beforeMount={setupMonaco}
-            options={{ ...EDITOR_OPTIONS, automaticLayout: !isEditorReady }}
+            options={{
+              ...EDITOR_OPTIONS,
+              automaticLayout: !isEditorReady,
+            }}
             value={editorValue}
             loading=""
           />

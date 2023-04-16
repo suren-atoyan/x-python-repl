@@ -13,7 +13,7 @@ const Stack = styled(FlexBox)({
 });
 
 const Container = styled(FlexBox, {
-  shouldForwardProp: (prop) => prop !== 'background',
+  shouldForwardProp: (prop) => !['background'].includes(prop),
 })<ContainerProps>(({ background }) => ({
   width: 400,
   height: 400,
@@ -24,6 +24,14 @@ const Container = styled(FlexBox, {
   overflowX: 'hidden',
   overflowY: 'auto',
   backgroundColor: background,
+  position: 'relative',
 }));
 
-export { Box, FlexBox, Stack, Container };
+const Loading = styled(Box)({
+  position: 'absolute',
+  right: 10,
+  top: 10,
+  zIndex: 3,
+});
+
+export { Box, FlexBox, Stack, Container, Loading };
