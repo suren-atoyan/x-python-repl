@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/suren-atoyan/x-python-repl#readme",
   "devDependencies": {
+    "@types/dompurify": "^3.0.1",
     "@types/lodash": "^4.14.194",
     "@types/react": "^18.0.35",
     "@types/styled-components": "^5.1.26",
@@ -51,6 +52,7 @@
     "monaco-editor": "^0.37.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-webcam": "^7.0.1",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.9"
   },

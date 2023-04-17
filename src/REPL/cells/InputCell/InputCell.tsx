@@ -19,9 +19,13 @@ import {
   Output,
   ResultContainer,
 } from '../styled';
-import { getResult } from '../utils';
+import { getResult, getTempVariablePrefix, isComplexInput, isComplexOutput } from '../utils';
 import { InputCellProps } from './types';
 import { CellOutput } from '../../types';
+import { ComplexInputs } from '../Complex/inputs/types';
+import { getInputParam } from './utils';
+import ComplexInput from '../Complex/inputs/ComplexInput';
+import { completionItems, complexInputPredicate } from '../../utils';
 
 const UP_DOWN_ARROW_COMMAND_CONTEXT =
   'editorTextFocus && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode && !quickFixWidgetVisible';
@@ -57,6 +61,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   const currentValue = useRef(cell.input?.code);
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [complexInput, setComplexInput] = useState<ComplexInputs | null>(null);
   const [height, setHeight] = useState(CODE_CONTAINER_MIN_HEIGHT);
   const [prevValueIndex, setPrevValueIndex] = useState(cells.length - 1);
   const [config] = useConfig();
@@ -67,6 +72,13 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   cellsRef.current = cells;
   isInitializedRef.current = props.isInitialized;
 
+  function submitComplexOutput(code: string) {
+    const [command, param] = getInputParam(code);
+
+    console.log('command', command);
+    console.log('param', param);
+  }
+
   async function handleRun() {
     if (!isInitializedRef.current || isLoading) {
       return;
@@ -74,17 +86,27 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
 
     if (editorRef.current) {
       const code = editorRef.current.getValue();
-      setIsLoading(true);
 
-      try {
-        const output = await exec({ code });
-        addCell({ ...cell, input: { code }, output });
-      } catch (error) {
-        // TODO: get rid of casting
-        const output = { error: error as string } as CellOutput;
-        addCell({ ...cell, input: { code }, output });
-      } finally {
-        setIsLoading(false);
+      if (code) {
+        if (isComplexInput(code)) {
+          setComplexInput(code as ComplexInputs);
+        } else if (isComplexOutput(code)) {
+          submitComplexOutput(code);
+        } else {
+          // run actual code
+          setIsLoading(true);
+
+          try {
+            const output = await exec({ code });
+            addCell({ ...cell, input: { code }, output });
+          } catch (error) {
+            // TODO: get rid of casting
+            const output = { error: error as string } as CellOutput;
+            addCell({ ...cell, input: { code }, output });
+          } finally {
+            setIsLoading(false);
+          }
+        }
       }
     }
   }
@@ -183,6 +205,16 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
     }
   }
 
+  function submitComplexInput(base64: string) {
+    editorRef.current?.setValue(
+      `${getTempVariablePrefix(complexInput)}_${index + 1} = ${base64.replace(
+        /^data:.+;base64,/,
+        "b'",
+      )}'`,
+    );
+    handleRun();
+  }
+
   function handleEditorMount(editor: monacoType.editor.IStandaloneCodeEditor, monaco: Monaco) {
     editorRef.current = editor;
     props.editorRef.current = editor;
@@ -255,7 +287,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
   useEffect(() => {
     let disposable: RegisteredCompletionItemProvider;
     if (isEditorReady && monacoRef.current) {
-      disposable = setupAutocompletion(monacoRef.current);
+      disposable = setupAutocompletion(monacoRef.current, complexInputPredicate, completionItems);
     }
 
     return () => {
@@ -292,6 +324,7 @@ function InputCell({ cell, index, ...props }: InputCellProps) {
           />
         </EditorContainer>
       </Input>
+      {complexInput && <ComplexInput onSubmit={submitComplexInput} type={complexInput} />}
       {result && (
         <Output>
           <OutputIndex index={index + 1} />

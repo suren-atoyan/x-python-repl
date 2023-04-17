@@ -11,7 +11,8 @@ const INPUT_PARAM_REGEXP = /(\/\w+)(?:\s|^)(\w+)(?=\s|$)/;
 function getInputParam(code: string): [string, string] | [] {
   const match = code.match(INPUT_PARAM_REGEXP);
 
-  if (match) return [match[1], match[2]];
+  // TODO: fix this
+  if (match) return [match[1] as string, match[2] as string];
 
   return [];
 }
